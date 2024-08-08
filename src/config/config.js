@@ -1,14 +1,26 @@
-import React from "react";
-import Navbar from "../components/Navbar";
 
-const SalesAppAdminDashboard = () => {
-  const Links = [
+export const allowedFileTypes = [
+
+  "image/jpeg", // JPEG images
+  "image/jpg", // JPEG images
+  "image/png", // PNG images
+];
+export const allowedExtensions = ".jpg, .jpeg, .png";
+
+export const Priviledges = {
+
+  //SalesAppAdmin
+  "/salesappadmin/dashboard": 1000,
+  "/salesappadmin/korisnici": 5000,
+};
+
+export const SalesAdminDashboardLinks = [
     {
       label: "Home",
       image: "",
       desc: "Home",
-      href: "/SalesAppAdmin",
-      minRole: 5000,
+      href: "/SalesAppAdmin/dashboard",
+      minRole: Priviledges["/salesappadmin/dashboard"],
     },  
     {
       label: "Proizvodi na akciji",
@@ -36,13 +48,6 @@ const SalesAppAdminDashboard = () => {
       image: "",
       desc: "Korisnici",
       href: "/SalesAppAdmin/korisnici",
-      minRole: 5000,
+      minRole: Priviledges["/salesappadmin/korisnici"],
     },
   ];
-  return <>
-  <Navbar Links={Links} />
-  <div>SalesAppAdminDashboard</div>
-  </>;
-};
-
-export default SalesAppAdminDashboard;

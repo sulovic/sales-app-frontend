@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { toast } from "react-toastify";
 import { useAuth } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { handleLogin } = useAuth();
+  const { handleLogin, authUser } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authUser) {
+
+      navigate("/SalesAppAdmin/dashboard");
+    }
+  }, [authUser, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +26,7 @@ const Login = () => {
     handleLogin({ type: "google", credential: res?.credential });
   };
 
-  return (
+  return !authUser && (
     <div className="w-full h-dvh flex justify-center items-center bg-gray-200 dark:bg-gray-900">
       <div className="flex flex-col gap-4 min-w-96 justify-center items-center bg-white dark:bg-gray-600 text-center shadow-2xl p-8 rounded-xl">
         <h3>Sales App Admin</h3>

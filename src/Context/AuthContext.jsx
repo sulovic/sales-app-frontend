@@ -71,20 +71,23 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleRefreshToken = async () => { try {
-    const refreshTokenResponse = await ApiRefreshConnector();
-    if (refreshTokenResponse) {
-      const newAccessToken = refreshTokenResponse?.data?.accessToken;
-      const decodedAccessToken = jwtDecode(newAccessToken);
-      setAuthUser(decodedAccessToken);
-      setAccessToken(newAccessToken);
-      return newAccessToken;
+  const handleRefreshToken = async () => {
+    try {
+      const refreshTokenResponse = await ApiRefreshConnector();
+
+      if (refreshTokenResponse) {
+        const newAccessToken = refreshTokenResponse?.data?.accessToken;
+        const decodedAccessToken = jwtDecode(newAccessToken);
+        setAuthUser(decodedAccessToken);
+        setAccessToken(newAccessToken);
+        return newAccessToken;
+      }
+    } catch (err) {
+      toast.warning(`Ulogujte se kako biste pristupili aplikaciji`, {
+        position: "top-center",
+      });
     }
-  } catch (err) {
-    toast.warning(`Ulogujte se kako biste pristupili aplikaciji`, {
-      position: "top-center",
-    });
-  }};
+  };
 
   return (
     <AuthContext.Provider value={{ authUser, setAuthUser, accessToken, setAccessToken, handleLogin, handleLogout, handleRefreshToken }}>
