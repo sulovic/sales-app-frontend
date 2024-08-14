@@ -9,10 +9,10 @@ const Navbar = ({ Links = [] }) => {
 
   return (
     <nav tabIndex={-1} className={`mb-3 flex flex-wrap items-center justify-between bg-sky-400 p-1`}>
-      <div className="ps-2 flex flex-shrink-0 items-center">
-        <img src={"/public/favicon.png"} alt="Logo" style={{ width: "auto", height: "36px" }} />
+      <div className="ps-2 flex  items-center">
+        <img src={"/favicon.png"} alt="Logo" className="h-10" />
       </div>
-      <div className="ps-2 mr-6 flex flex-shrink-0 items-center">
+      <div className="ps-2 mr-6 flex  items-center">
         <h4 className="text-white">Sales App Admin</h4>
       </div>
       <div className="hidden lg:flex lg:w-auto lg:flex-grow lg:items-center">

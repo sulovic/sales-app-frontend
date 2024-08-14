@@ -56,20 +56,20 @@ const ModalEditUser = ({ setShowModalEditUser, fetchUsers, selectedUser }) => {
                 <div className="my-2">
                   <h5>Podaci o korisniku:</h5>
                 </div>
-                <div className="grid grid-cols-2 gap-8">
-                  <div className="mb-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  <div >
                     <label htmlFor="firstName">Ime</label>
                     <input type="text" id="firstName" aria-describedby="Ime" value={editedUser?.firstName} onChange={handleChange} maxLength={64} required />
                   </div>
-                  <div className="mb-3">
+                  <div >
                     <label htmlFor="lastName">Prezime</label>
                     <input type="text" id="lastName" aria-describedby="Prezime" value={editedUser?.lastName} onChange={handleChange} maxLength={64} required />
                   </div>
-                  <div className="mb-3">
+                  <div >
                     <label htmlFor="email">Email</label>
                     <input type="email" id="email" aria-describedby="Email" value={editedUser?.email} onChange={handleChange} maxLength={64} required />
                   </div>
-                  <div className="mb-3 ">
+                  <div>
                     <label htmlFor="roleId">Ovlašćenja korisnika</label>
                     <select id="roleId" aria-label="Odaberite ovlašćenja korisnika" required value={editedUser?.roleId} onChange={handleChange}>
                       <option value={1001}>BASE</option>

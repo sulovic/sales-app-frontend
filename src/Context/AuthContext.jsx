@@ -83,9 +83,10 @@ export const AuthProvider = ({ children }) => {
         return newAccessToken;
       }
     } catch (err) {
-      toast.warning(`Ulogujte se kako biste pristupili aplikaciji`, {
-        position: "top-center",
-      });
+      // console.log(err);
+      // toast.warning(`Ulogujte se kako biste pristupili aplikaciji`, {
+      //   position: "top-center",
+      // });
     }
   };
 

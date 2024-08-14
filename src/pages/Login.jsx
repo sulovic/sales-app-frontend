@@ -12,10 +12,9 @@ const Login = () => {
 
   useEffect(() => {
     if (authUser) {
-
       navigate("/SalesAppAdmin/dashboard");
     }
-  }, [authUser, navigate]);
+  }, [authUser]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

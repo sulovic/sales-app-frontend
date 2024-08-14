@@ -2,13 +2,13 @@ import React from "react";
 import Navbar from "../../components/Navbar";
 import { SalesAdminDashboardLinks } from "../../config/config";
 
-const Dashboard = () => {
+const ProductSales = () => {
   return (
     <>
       <Navbar Links={SalesAdminDashboardLinks} />
-      <div>Dashboard</div>
+      <div>ProductSales</div>
     </>
   );
 };
 
-export default Dashboard;
+export default ProductSales;

@@ -34,7 +34,7 @@ const ModalNewUser = ({ setShowModalNewUser, fetchUsers }) => {
         });
       }
     } catch (err) {
-      if (err.response.status === 409) {
+      if (err?.response?.status === 409) {
         toast.error(
           <div>
             Korisnik nije dodat! <br /> Korisnik sa ovim podacima već postoji
@@ -71,20 +71,20 @@ const ModalNewUser = ({ setShowModalNewUser, fetchUsers }) => {
                 <div className="my-2">
                   <h5>Podaci o korisniku:</h5>
                 </div>
-                <div className="grid grid-cols-2 gap-8">
-                  <div className="mb-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  <div >
                     <label htmlFor="firstName">Ime</label>
                     <input type="text" id="firstName" aria-describedby="Ime" value={newUser?.firstName} onChange={handleChange} maxLength={64} required />
                   </div>
-                  <div className="mb-3">
+                  <div >
                     <label htmlFor="lastName">Prezime</label>
                     <input type="text" id="lastName" aria-describedby="Prezime" value={newUser?.lastName} onChange={handleChange} maxLength={64} required />
                   </div>
-                  <div className="mb-3">
+                  <div >
                     <label htmlFor="email">Email</label>
                     <input type="email" id="email" aria-describedby="Email" value={newUser?.email} onChange={handleChange} maxLength={64} required />
                   </div>
-                  <div className="mb-3 ">
+                  <div >
                     <label htmlFor="roleId">Ovlašćenja korisnika</label>
                     <select id="roleId" aria-label="Odaberite ovlašćenja korisnika" required value={newUser?.roleId} onChange={handleChange}>
                       <option value={1001}>BASE</option>

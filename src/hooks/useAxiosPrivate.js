@@ -11,7 +11,7 @@ const axiosPrivate = axios.create({
 });
 
 const useAxiosPrivate = () => {
-  const { accessToken, refreshAccessToken } = useAuth();
+  const { accessToken, handleRefreshToken } = useAuth();
 
   useEffect(() => {
     // Request interceptor to add Authorization header
@@ -33,7 +33,8 @@ const useAxiosPrivate = () => {
         if (error?.response?.status === 403 && !prevRequest?.sent) {
           prevRequest.sent = true;
           try {
-            const newAccessToken = await refreshAccessToken();
+            const newAccessToken = await handleRefreshToken();
+            console.log("Refreshing token");  
             prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
             return axiosPrivate(prevRequest);
           } catch (refreshError) {
@@ -50,7 +51,7 @@ const useAxiosPrivate = () => {
       axiosPrivate.interceptors.response.eject(responseIntercept);
     };
 
-  }, [refreshAccessToken, accessToken]);
+  }, [handleRefreshToken, accessToken]);
 
   return axiosPrivate;
 };
