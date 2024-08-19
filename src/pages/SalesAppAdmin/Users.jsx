@@ -18,7 +18,7 @@ const Users = () => {
   const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const { authUser } = useAuth();
-  const tableHeaders = ["Ime i prezime", "Email", "Nivo ovašćenja"];
+  const tableHeaders = ["Ime i prezime", "Email", "Nivo ovašćenja", "Izmeni korisnika", "Obriši korisnika"];
 
   const fetchUsers = async () => {
     setShowSpinner(true);
@@ -76,15 +76,14 @@ const Users = () => {
       <Navbar Links={SalesAdminDashboardLinks} />
       <div className="mx-2 md:mx-4">
         <h3 className="mt-4">Korisnici aplikacije</h3>
+        <div className="flex justify-end px-3">
+          <button type="button" className="button button-sky " aria-label="EditUser" onClick={() => setShowModalNewUser(true)}>
+            Dodaj korisnika
+          </button>
+        </div>
 
         {usersData ? (
           <>
-            <div className="flex justify-end px-3">
-              <button type="button" className="button button-sky " aria-label="EditUser" onClick={() => setShowModalNewUser(true)}>
-                Dodaj korisnika
-              </button>
-            </div>
-
             {/* Render main data DIV */}
 
             <div>
@@ -98,12 +97,6 @@ const Users = () => {
                             {tableKey}
                           </th>
                         ))}
-                        <th className="px-6 py-3" key="editUser">
-                          Izmeni korisnika
-                        </th>
-                        <th className="px-6 py-3" key="deleteUser">
-                          Obriši korisnika
-                        </th>
                       </tr>
                     </thead>
                     <tbody>

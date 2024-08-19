@@ -80,17 +80,15 @@ const Products = () => {
       <Navbar Links={SalesAdminDashboardLinks} />
       <div className="mx-2 md:mx-4">
         <h3 className="mt-4">Proizvodi</h3>
+        <div className="flex justify-end px-3">
+          <button type="button" className="button button-sky " aria-label="Dodaj proizvod" onClick={() => setShowModalNewProduct(true)}>
+            Dodaj proizvod
+          </button>
+        </div>
 
         {productsData ? (
           <>
-            <div className="flex justify-end px-3">
-              <button type="button" className="button button-sky " aria-label="Dodaj proizvod" onClick={() => setShowModalNewProduct(true)}>
-                Dodaj proizvod
-              </button>
-            </div>
-
             {/* Render main data DIV */}
-
             <div>
               <div className="relative my-4 overflow-x-auto shadow-lg sm:rounded-lg">
                 <div className="table-responsive p-3">
@@ -146,7 +144,9 @@ const Products = () => {
       </div>
       {showSpinner && <Spinner />}
       {showModalNewProduct && <ModalNewProduct setShowModalNewProduct={setShowModalNewProduct} fetchProducts={fetchProducts} />}
-      {showModalEditProduct && <ModalEditProduct setShowModalEditProduct={setShowModalEditProduct} fetchProducts={fetchProducts} selectedProduct={selectedProduct} />}
+      {showModalEditProduct && (
+        <ModalEditProduct setShowModalEditProduct={setShowModalEditProduct} fetchProducts={fetchProducts} selectedProduct={selectedProduct} />
+      )}
       {showModalDelete && (
         <Modal
           onOK={handleDeleteOK}

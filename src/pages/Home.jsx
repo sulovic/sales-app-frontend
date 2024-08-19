@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
 import ProductCards from "../components/SalesAppAdmin/Home/ProductCards";
@@ -7,7 +8,6 @@ import axios from "axios";
 const Home = () => {
   const [productsData, setProductsData] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
-
 
   const fetchProducts = async () => {
     try {
@@ -30,23 +30,28 @@ const Home = () => {
 
   return (
     <>
-          <div className="w-screen">
-
-      <h3 className="text-center my-4">Proizvodi na akciji</h3>
-      <div className="p-4">
-        <div className="grid grid-cols-2 lg:grid-cols-4 3xl:grid-cols-8 gap-4">
-
-          {productsData?.map((product) => (
-            <ProductCards key={product?.productId} product={product} />
-          ))}
-
+      <div className="w-full h-screen">
+        <div className="flex flex-wrap bg-sky-400 p-1 align-middle text-center">
+          <Link to="/" className="ps-2 flex  items-center">
+            <img src={"/favicon.png"} alt="Logo" className="h-10" />
+          </Link>
+          <div className="px-4 flex  items-center">
+            <h4 className="text-white">SALES APP</h4>
+          </div>
+          <div className="flex grow justify-center ">
+            <h3 className="text-white">Proizvodi na akciji</h3>
+          </div>
         </div>
-
-      </div>
+        <div className="p-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 3xl:grid-cols-8 gap-4">
+            {productsData?.map((product) => (
+              <ProductCards key={product?.productId} product={product} />
+            ))}
+          </div>
+        </div>
       </div>
 
       {showSpinner && <Spinner />}
-
     </>
   );
 };
