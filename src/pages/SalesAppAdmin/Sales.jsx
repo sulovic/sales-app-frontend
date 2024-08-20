@@ -8,13 +8,17 @@ import { useAuth } from "../../Context/AuthContext";
 import { toast } from "react-toastify";
 import ModalNewSale from "../../components/SalesAppAdmin/Sales/ModalNewSale";
 import { format } from "date-fns";
+import HandleSaleProducts from "../../components/SalesAppAdmin/Sales/HandleSaleProducts";
+import ModalEditSale from "../../components/SalesAppAdmin/Sales/ModalEditSale";
 
 const Sales = () => {
   const [salesData, setSalesData] = useState(null);
   const [showSpinner, setShowSpinner] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showHandleSaleProducts, setShowHandleSaleProducts] = useState(false);
+  const [selectedSaleId, setSelectedSaleId] = useState(null);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [showModalNewSale, setShowModalNewSale] = useState(false);
+  const [showModalEditSale, setShowModalEditSale] = useState(false);
   const [selectedSale, setSelectedSale] = useState(null);
   const axiosPrivate = useAxiosPrivate();
   const { authUser } = useAuth();
@@ -67,6 +71,16 @@ const Sales = () => {
     setSelectedSale(null);
   };
 
+  const handleShowSaleProducts = (id) => {
+    setSelectedSaleId(id);
+    setShowHandleSaleProducts(true);
+  };
+
+  const handleEdit = (sale) => {
+    setSelectedSale(sale);
+    setShowModalEditSale(true);
+  };
+
   return (
     <>
       <Navbar Links={SalesAdminDashboardLinks} />
@@ -102,16 +116,14 @@ const Sales = () => {
                         <td key={`startDate_${index}`}>{sale?.startDate && format(sale?.startDate, "dd.MM.yyyy")}</td>
                         <td key={`endDate_${index}`}>{sale?.endDate && format(sale?.endDate, "dd.MM.yyyy")}</td>
                         <td key={`active_${index}`}>{sale?.active ? "Da" : "Ne"}</td>
-                        <td key={`products_${index}`}>Proizvodi</td>
+                        <td key={`products_${index}`}>
+                          <button type="button" className="button button-sky" aria-label="Edit" onClick={() => handleShowSaleProducts(sale?.saleId)}>
+                            Pregledaj proizvode
+                          </button>
+                        </td>
 
                         <td key={`editSale_${index}`} className="text-center">
-                          <button
-                            type="button"
-                            className="button button-sky"
-                            aria-label="Edit"
-                            disabled={authUser?.roleId < 1000}
-                            onClick={() => console.log(sale)}
-                          >
+                          <button type="button" className="button button-sky" aria-label="Edit" onClick={() => handleEdit(sale)}>
                             Izmeni
                           </button>
                         </td>
@@ -141,7 +153,8 @@ const Sales = () => {
 
       {showSpinner && <Spinner />}
       {showModalNewSale && <ModalNewSale setShowModalNewSale={setShowModalNewSale} fetchSales={fetchSales} />}
-
+      {showHandleSaleProducts && <HandleSaleProducts setShowHandleSaleProducts={setShowHandleSaleProducts} id={selectedSaleId} />}
+      {showModalEditSale && <ModalEditSale setShowModalEditSale={setShowModalEditSale} fetchSales={fetchSales} selectedSale={selectedSale} />}
       {showModalDelete && (
         <Modal
           onOK={handleDeleteOK}

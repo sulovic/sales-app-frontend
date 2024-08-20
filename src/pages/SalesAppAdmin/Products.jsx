@@ -108,7 +108,7 @@ const Products = () => {
                           <td key={`productName${index}`}>{product?.productName}</td>
                           <td key={`productDescription_${index}`}>{product?.productDesc}</td>
                           <td key={`productBarcode_${index}`}>{product?.productBarcode}</td>
-                          <td key={`regularPrice_${index}`}>{product?.regularPrice}</td>
+                          <td key={`regularPrice_${index}`}>{product?.regularPrice.toLocaleString("sr-RS", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                           <td key={`productImage_${index}`} className="flex justify-center">
                             <img src={product?.productImage ? apiUrl + "/" + product?.productImage : "/placeholder.png"} alt="productImage" className="h-16" />
                           </td>

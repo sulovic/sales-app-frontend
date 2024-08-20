@@ -6,11 +6,11 @@ import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "./ToggleSwitch.css";
 
-const ModalNewSale = ({ setShowModalNewSale, fetchSales }) => {
+const ModalEditSale = ({ setShowModalEditSale, fetchSales, selectedSale }) => {
   const [showModal, setShowModal] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
+  const [editedSale, setEditedSale] = useState(selectedSale);
   const axiosPrivate = useAxiosPrivate();
-  const [newSale, setNewSale] = useState({ startDate: "", endDate: "", active: false });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,9 +20,9 @@ const ModalNewSale = ({ setShowModalNewSale, fetchSales }) => {
   const handleSubmitOk = async () => {
     try {
       setShowSpinner(true);
-      const responseAddedSale = await axiosPrivate.post("/api/sales", newSale);
+      const responseAddedSale = await axiosPrivate.put(`api/sales/${editedSale?.saleId}`, editedSale);
       if (responseAddedSale) {
-        toast.success(`Akcija je uspešno dodata!`, {
+        toast.success(`Akcija je uspešno izmenjena!`, {
           position: "top-center",
         });
       }
@@ -32,7 +32,7 @@ const ModalNewSale = ({ setShowModalNewSale, fetchSales }) => {
       });
     } finally {
       setShowSpinner(false);
-      setShowModalNewSale(false);
+      setShowModalEditSale(false);
       fetchSales();
     }
   };
@@ -60,10 +60,10 @@ const ModalNewSale = ({ setShowModalNewSale, fetchSales }) => {
                         id="startDate"
                         locale="sr-Latn"
                         autoComplete="off"
-                        selected={newSale?.startDate}
-                        maxDate={newSale?.endDate}
+                        selected={editedSale?.startDate}
+                        maxDate={editedSale?.endDate}
                         onChange={(date) =>
-                          setNewSale((prev) => ({
+                          setEditedSale((prev) => ({
                             ...prev,
                             startDate: date,
                           }))
@@ -80,10 +80,10 @@ const ModalNewSale = ({ setShowModalNewSale, fetchSales }) => {
                         id="endDate"
                         locale="sr-Latn"
                         autoComplete="off"
-                        selected={newSale?.endDate}
-                        minDate={newSale?.startDate}
+                        selected={editedSale?.endDate}
+                        minDate={editedSale?.startDate}
                         onChange={(date) =>
-                          setNewSale((prev) => ({
+                          setEditedSale((prev) => ({
                             ...prev,
                             endDate: date,
                           }))
@@ -99,8 +99,8 @@ const ModalNewSale = ({ setShowModalNewSale, fetchSales }) => {
                   <div className="flex justify-start mt-4">
                     <label className="switch">
                       <input
-                        checked={newSale.active}
-                        onChange={(e) => setNewSale((prev) => ({ ...prev, active: e.target.checked }))}
+                        checked={editedSale.active}
+                        onChange={(e) => setEditedSale((prev) => ({ ...prev, active: e.target.checked }))}
                         className="switch-input"
                         type="checkbox"
                       />
@@ -117,7 +117,7 @@ const ModalNewSale = ({ setShowModalNewSale, fetchSales }) => {
               <button type="submit" className="button button-sky">
                 OK
               </button>
-              <button type="button" className="button button-gray" onClick={() => setShowModalNewSale(false)}>
+              <button type="button" className="button button-gray" onClick={() => setShowModalEditSale(false)}>
                 Odustani
               </button>
             </div>
@@ -129,7 +129,7 @@ const ModalNewSale = ({ setShowModalNewSale, fetchSales }) => {
           onOK={() => handleSubmitOk()}
           onCancel={() => setShowModal(false)}
           title="Potvrda kreiranja nove akcije"
-          question={`Da li ste sigurni da zelite da kreirate novu akciju?`}
+          question={`Da li ste sigurni da zelite da izmenite ovu akciju?`}
         />
       )}
       {showSpinner && <Spinner />}
@@ -137,4 +137,4 @@ const ModalNewSale = ({ setShowModalNewSale, fetchSales }) => {
   );
 };
 
-export default ModalNewSale;
+export default ModalEditSale;

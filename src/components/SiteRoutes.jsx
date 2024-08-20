@@ -24,9 +24,6 @@ const SiteRoutes = () => {
           <Route element={<ProtectRoute minRole={Priviledges["/salesappadmin/proizvodi"]} />}>
             <Route path="proizvodi" element={<Products />} />
           </Route>
-          <Route element={<ProtectRoute minRole={Priviledges["/salesappadmin/proizvodi-na-akciji"]} />}>
-            <Route path="proizvodi-na-akciji" element={<ProductSales />} />
-          </Route>
           <Route element={<ProtectRoute minRole={Priviledges["/salesappadmin/akcije"]} />}>
             <Route path="akcije" element={<Sales />} />
           </Route>
