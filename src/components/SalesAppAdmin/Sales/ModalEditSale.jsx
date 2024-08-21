@@ -46,7 +46,7 @@ const ModalEditSale = ({ setShowModalEditSale, fetchSales, selectedSale }) => {
             <div className="w-full sm:mt-0 py-4">
               {/* Modal Head */}
               <div className="text-left min-h-96">
-                <h4>Kreiranje nove akcije</h4>
+                <h4>Izmena postojeće akcije</h4>
                 <div className="my-4 w-full h-0.5 bg-zinc-400"></div>
                 {/* Modal Body */}
                 <div className="my-2">

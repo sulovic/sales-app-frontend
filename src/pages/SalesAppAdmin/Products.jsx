@@ -106,7 +106,7 @@ const Products = () => {
                       {productsData.map((product, index) => (
                         <tr key={index} className="border-b bg-white hover:!bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800">
                           <td key={`productName${index}`}>{product?.productName}</td>
-                          <td key={`productDescription_${index}`}>{product?.productDesc}</td>
+                          <td className="max-w-64 overflow-hidden text-ellipsis" key={`productDescription_${index}`}>{product?.productDesc}</td>
                           <td key={`productBarcode_${index}`}>{product?.productBarcode}</td>
                           <td key={`regularPrice_${index}`}>{product?.regularPrice.toLocaleString("sr-RS", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                           <td key={`productImage_${index}`} className="flex justify-center">

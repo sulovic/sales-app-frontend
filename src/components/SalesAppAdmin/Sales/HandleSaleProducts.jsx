@@ -4,6 +4,7 @@ import Spinner from "../../Spinner";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../Context/AuthContext";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import Select from "react-select";
 
 const HandleSaleProducts = ({ id, setShowHandleSaleProducts }) => {
   const [saleProducts, setSaleProducts] = useState(null);
@@ -11,17 +12,33 @@ const HandleSaleProducts = ({ id, setShowHandleSaleProducts }) => {
   const [showModal, setShowModal] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [productsData, setProductsData] = useState(null);
   const [newSaleProduct, setNewSaleProduct] = useState({ productId: "", salePrice: "", saleId: id });
   const axiosPrivate = useAxiosPrivate();
+  const [productOptions, setProductOptions] = useState(null);
   const { authUser } = useAuth();
 
-  const fetchSaleProducts = async () => {
+  const fetchData = async () => {
     try {
       setShowSpinner(true);
       const saleProductsResponse = await axiosPrivate.get(`/api/saleProducts?saleId=${id}`);
       if (saleProductsResponse) {
-        setSaleProducts(saleProductsResponse.data);
+        setSaleProducts(saleProductsResponse?.data);
+        var saleProducts = saleProductsResponse?.data;
+      }
+      const productsResponse = await axiosPrivate.get("/api/products");
+      if (productsResponse) {
+        const allProducts = productsResponse?.data;
+        const filteredProducts = allProducts.filter((product) => !saleProducts.some((saleProduct) => saleProduct.productId === product.productId));
+        if (filteredProducts) {
+          const options = filteredProducts.map((product) => ({
+            value: product.productId,
+            label: `${product.productName} - Redovna cena: ${product.regularPrice.toLocaleString("sr-RS", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}`,
+          }));
+          setProductOptions(options);
+        }
       }
     } catch (err) {
       if (err?.response?.status === 404) {
@@ -36,23 +53,8 @@ const HandleSaleProducts = ({ id, setShowHandleSaleProducts }) => {
     }
   };
 
-  const fetchProducts = async () => {
-    try {
-      setShowSpinner(true);
-      const productsResponse = await axiosPrivate.get("/api/products");
-      setProductsData(productsResponse?.data);
-    } catch (err) {
-      toast.error(`Ups! Došlo je do greške: ${err}`, {
-        position: "top-center",
-      });
-    } finally {
-      setShowSpinner(false);
-    }
-  };
-
   useEffect(() => {
-    fetchSaleProducts();
-    fetchProducts();
+    fetchData();
   }, []);
 
   const handleSubmit = (e) => {
@@ -66,7 +68,7 @@ const HandleSaleProducts = ({ id, setShowHandleSaleProducts }) => {
       await axiosPrivate.post("/api/saleProducts", newSaleProduct);
       toast.success(`Proizvod je uspešno dodat!`, {
         position: "top-center",
-      })
+      });
     } catch (err) {
       toast.error(`Ups! Došlo je do greške: ${err}`, {
         position: "top-center",
@@ -74,7 +76,7 @@ const HandleSaleProducts = ({ id, setShowHandleSaleProducts }) => {
     } finally {
       setShowSpinner(false);
       setShowModal(false);
-      fetchSaleProducts();
+      fetchData();
       setNewSaleProduct({ productId: "", salePrice: "", saleId: id });
     }
   };
@@ -84,13 +86,13 @@ const HandleSaleProducts = ({ id, setShowHandleSaleProducts }) => {
     setShowModalDelete(true);
   };
 
- const handleDeleteOk = async () => {
-  setShowSpinner(true);
+  const handleDeleteOk = async () => {
+    setShowSpinner(true);
     try {
       await axiosPrivate.delete(`/api/saleProducts/${selectedProduct?.spId}`);
       toast.success(`Proizvod je uspešno obrisan!`, {
-        position: "top-center", 
-      })
+        position: "top-center",
+      });
     } catch (err) {
       toast.error(`Ups! Došlo je do greške: ${err}`, {
         position: "top-center",
@@ -99,10 +101,9 @@ const HandleSaleProducts = ({ id, setShowHandleSaleProducts }) => {
       setShowSpinner(false);
       setShowModalDelete(false);
       setSelectedProduct(null);
-      fetchSaleProducts();
+      fetchData();
     }
   };
-
 
   return (
     <>
@@ -158,9 +159,23 @@ const HandleSaleProducts = ({ id, setShowHandleSaleProducts }) => {
               <h4>Dodaj nove proizvode: </h4>
               <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 items-end gap-4 md:grid-cols-4">
-                  <div className= "col-span-2">
+                  <div className="col-span-2">
                     <label htmlFor="productId">Naziv proizvoda</label>
-                    <select
+                    {productOptions && (
+                      <Select
+                        id="productId"
+                        aria-describedby="Naziv proizvoda"
+                        value={productOptions.find((option) => option.value === newSaleProduct?.productId) || null}
+                        onChange={(e) => setNewSaleProduct({ ...newSaleProduct, productId: parseInt(e?.target?.value) })}
+                        options={productOptions}
+                        isClearable
+                        placeholder="Odaberite proizvod"
+                        menuPlacement="top"
+                        maxMenuHeight={240}
+                        required
+                      />
+                    )}
+                    {/* <select
                       id="productId"
                       aria-describedby="Naziv proizvoda"
                       value={newSaleProduct?.productName}
@@ -171,10 +186,10 @@ const HandleSaleProducts = ({ id, setShowHandleSaleProducts }) => {
                       {productsData?.length &&
                         productsData.map((product, index) => (
                           <option key={`proiz_${index}`} value={product?.productId}>
-                            {product?.productName}
+                            {product?.productName} Redovna cena: {product?.regularPrice.toLocaleString("sr-RS", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                           </option>
                         ))}
-                    </select>
+                    </select> */}
                   </div>
                   <div>
                     <label htmlFor="salePrice">Akcijska cena</label>

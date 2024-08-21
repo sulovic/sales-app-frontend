@@ -101,8 +101,7 @@ const ModalNewProduct = ({ setShowModalNewProduct, fetchProducts }) => {
                   </div>
                   <div>
                     <label htmlFor="productDesc">Opis</label>
-                    <input
-                      type="text"
+                    <textarea
                       id="productDesc"
                       aria-describedby="Opis proizoda"
                       value={newProduct?.productDesc}

@@ -132,8 +132,7 @@ const ModalEditProduct = ({ setShowModalEditProduct, fetchProducts, selectedProd
                     </div>
                     <div>
                       <label htmlFor="productDesc">Opis</label>
-                      <input
-                        type="text"
+                      <textarea
                         id="productDesc"
                         aria-describedby="Opis proizoda"
                         value={editedProduct?.productDesc}
