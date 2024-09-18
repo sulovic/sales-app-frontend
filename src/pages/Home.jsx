@@ -45,7 +45,7 @@ const Home = () => {
         </div>
         <div className="p-4">
           {productsData?.length ? (
-            <div className="grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-4">
               {productsData?.map((product) => (
                 <ProductCards key={product?.productId} product={product} />
               ))}

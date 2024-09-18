@@ -166,7 +166,7 @@ const HandleSaleProducts = ({ id, setShowHandleSaleProducts }) => {
                         id="productId"
                         aria-describedby="Naziv proizvoda"
                         value={productOptions.find((option) => option.value === newSaleProduct?.productId) || null}
-                        onChange={(e) => setNewSaleProduct({ ...newSaleProduct, productId: parseInt(e?.target?.value) })}
+                        onChange={(e) => setNewSaleProduct({ ...newSaleProduct, productId: parseInt(e?.value) })}
                         options={productOptions}
                         isClearable
                         placeholder="Odaberite proizvod"
@@ -175,21 +175,6 @@ const HandleSaleProducts = ({ id, setShowHandleSaleProducts }) => {
                         required
                       />
                     )}
-                    {/* <select
-                      id="productId"
-                      aria-describedby="Naziv proizvoda"
-                      value={newSaleProduct?.productName}
-                      onChange={(e) => setNewSaleProduct({ ...newSaleProduct, productId: parseInt(e.target.value) })}
-                      required
-                    >
-                      <option value="">Odaberite proizvod</option>
-                      {productsData?.length &&
-                        productsData.map((product, index) => (
-                          <option key={`proiz_${index}`} value={product?.productId}>
-                            {product?.productName} Redovna cena: {product?.regularPrice.toLocaleString("sr-RS", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                          </option>
-                        ))}
-                    </select> */}
                   </div>
                   <div>
                     <label htmlFor="salePrice">Akcijska cena</label>
